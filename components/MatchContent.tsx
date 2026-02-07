@@ -6,7 +6,7 @@ import RefreshButton from "./RefreshButton";
 
 function LoadingState() {
   return (
-    <div className="mx-auto max-w-3xl space-y-6 px-4 sm:px-6">
+    <div className="mx-auto max-w-3xl space-y-5 px-4 sm:space-y-6 sm:px-6">
       <div className="h-12 animate-pulse rounded-xl border border-pastel-blush/60 bg-white/80 shadow-soft" />
       <div className="flex gap-2 rounded-2xl border border-pastel-blush/50 bg-white/60 p-1.5 shadow-soft">
         <div className="h-12 flex-1 animate-pulse rounded-xl bg-pastel-blush/40" />
@@ -91,10 +91,10 @@ export default function MatchContent() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6 px-4 sm:px-6">
+    <div className="mx-auto max-w-3xl space-y-5 px-4 sm:space-y-6 sm:px-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         {updatedAt && (
-          <p className="text-sm text-gray-600" aria-live="polite">
+          <p className="min-w-0 truncate text-sm text-gray-600" aria-live="polite">
             Last updated{" "}
             <time dateTime={updatedAt}>
               {new Date(updatedAt).toLocaleString(undefined, {
@@ -104,7 +104,7 @@ export default function MatchContent() {
             </time>
           </p>
         )}
-        <div className={updatedAt ? "sm:ml-auto" : ""}>
+        <div className={`min-h-[44px] ${updatedAt ? "sm:ml-auto" : ""}`}>
           <RefreshButton onClick={refresh} isRefreshing={isRefreshing} />
         </div>
       </div>

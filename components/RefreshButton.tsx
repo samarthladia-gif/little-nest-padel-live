@@ -22,7 +22,7 @@ export default function RefreshButton({
       disabled={busy}
       aria-label={ariaLabel}
       aria-busy={isRefreshing}
-      className="inline-flex items-center gap-2 rounded-xl border border-pastel-blush/70 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-soft transition hover:bg-pastel-cream hover:text-accent-forest focus:outline-none focus:ring-2 focus:ring-accent-rose/20 disabled:opacity-50"
+      className="inline-flex min-h-[48px] min-w-[44px] items-center justify-center gap-2 rounded-xl border border-pastel-blush/70 bg-white px-5 py-3 text-base font-medium text-gray-700 shadow-soft transition active:bg-pastel-cream hover:bg-pastel-cream hover:text-accent-forest focus:outline-none focus:ring-2 focus:ring-accent-rose/20 disabled:opacity-50 sm:min-h-0 sm:py-2.5 sm:text-sm"
     >
       <svg
         className={`h-5 w-5 ${isRefreshing ? "animate-spin" : ""}`}

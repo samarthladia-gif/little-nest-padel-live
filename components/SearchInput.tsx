@@ -15,7 +15,7 @@ export default function SearchInput({
 }: SearchInputProps) {
   return (
     <div className="relative">
-      <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+      <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 sm:left-3">
         <svg
           className="h-5 w-5"
           fill="none"
@@ -36,8 +36,9 @@ export default function SearchInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-xl border border-pastel-blush/70 bg-white py-2.5 pl-10 pr-4 text-gray-800 placeholder-gray-400 shadow-soft outline-none transition focus:border-accent-rose/50 focus:ring-2 focus:ring-accent-rose/20"
+        className="min-h-[48px] w-full rounded-xl border border-pastel-blush/70 bg-white py-3 pl-11 pr-4 text-base text-gray-800 placeholder-gray-400 shadow-soft outline-none transition focus:border-accent-rose/50 focus:ring-2 focus:ring-accent-rose/20 sm:min-h-0 sm:py-2.5 sm:text-sm"
         aria-label={ariaLabel}
+        autoComplete="off"
       />
     </div>
   );

@@ -11,18 +11,18 @@ export default function UpcomingMatchCard({ match }: UpcomingMatchCardProps) {
 
   return (
     <article
-      className="overflow-hidden rounded-2xl border border-pastel-sky/60 bg-white shadow-card transition hover:shadow-card-hover"
+      className="min-w-0 overflow-hidden rounded-2xl border border-pastel-sky/60 bg-white shadow-card transition hover:shadow-card-hover"
       data-match-id={match.id}
     >
       <div
-        className={`border-b px-4 py-2 ${
+        className={`border-b px-4 py-2.5 sm:py-2 ${
           inProgress
             ? "border-accent-gold/40 bg-accent-gold/15"
             : "border-pastel-sky/40 bg-pastel-sky/20"
         }`}
       >
         <span
-          className={`inline-block rounded-full px-3 py-0.5 text-xs font-semibold uppercase tracking-wider ${
+          className={`inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider sm:py-0.5 ${
             inProgress ? "text-accent-gold/95" : "text-accent-forest/90"
           }`}
           aria-label={inProgress ? "Status: in progress" : "Status: upcoming"}
@@ -31,9 +31,9 @@ export default function UpcomingMatchCard({ match }: UpcomingMatchCardProps) {
         </span>
       </div>
 
-      <div className="p-5 sm:p-6">
+      <div className="p-4 sm:p-5 md:p-6">
         <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between sm:gap-4">
-          <div className="text-center font-medium text-gray-800 sm:text-left">
+          <div className="min-w-0 flex-1 break-words text-center text-[15px] font-medium text-gray-800 sm:text-left">
             {match.team_a.name}
           </div>
 
@@ -41,7 +41,7 @@ export default function UpcomingMatchCard({ match }: UpcomingMatchCardProps) {
             <span className="text-sm font-medium">vs</span>
           </div>
 
-          <div className="text-center font-medium text-gray-800 sm:text-right">
+          <div className="min-w-0 flex-1 break-words text-center text-[15px] font-medium text-gray-800 sm:text-right">
             {match.team_b.name}
           </div>
         </div>
@@ -63,12 +63,12 @@ export default function UpcomingMatchCard({ match }: UpcomingMatchCardProps) {
         {(hasCategory || hasFixture) && (
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2 border-t border-pastel-sky/30 pt-3">
             {hasCategory && (
-              <span className="rounded-md border border-pastel-blush/70 bg-pastel-blush/30 px-2.5 py-1 text-xs font-medium text-gray-600">
+              <span className="rounded-md border border-pastel-blush/70 bg-pastel-blush/30 px-2.5 py-1.5 text-xs font-medium text-gray-600 sm:py-1">
                 {match.category}
               </span>
             )}
             {hasFixture && (
-              <span className="rounded-md border border-pastel-sage/50 bg-pastel-sage/20 px-2.5 py-1 text-xs font-medium text-gray-600">
+              <span className="rounded-md border border-pastel-sage/50 bg-pastel-sage/20 px-2.5 py-1.5 text-xs font-medium text-gray-600 sm:py-1">
                 {match.fixture}
               </span>
             )}

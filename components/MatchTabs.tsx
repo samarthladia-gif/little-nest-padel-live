@@ -77,7 +77,7 @@ export default function MatchTabs({ matches }: MatchTabsProps) {
         <div
           role="tablist"
           aria-label="Match view"
-          className="mt-4 flex rounded-2xl border border-pastel-blush/50 bg-white/80 p-1.5 shadow-soft"
+          className="mt-4 flex min-h-[52px] rounded-2xl border border-pastel-blush/50 bg-white/80 p-1.5 shadow-soft sm:min-h-0"
         >
           {tabs.map(({ id, label }) => (
             <button
@@ -87,7 +87,7 @@ export default function MatchTabs({ matches }: MatchTabsProps) {
               aria-controls={`panel-${id}`}
               id={`tab-${id}`}
               onClick={() => setActiveTab(id)}
-              className={`flex-1 rounded-xl py-2.5 text-sm font-medium transition sm:py-3 sm:text-base ${
+              className={`flex min-h-[44px] flex-1 items-center justify-center rounded-xl py-3 text-base font-medium transition active:bg-white/80 sm:min-h-0 sm:py-2.5 sm:text-sm md:text-base ${
                 activeTab === id
                   ? "bg-white text-accent-forest shadow-card"
                   : "text-gray-600 hover:bg-white/50 hover:text-gray-800"
@@ -98,7 +98,7 @@ export default function MatchTabs({ matches }: MatchTabsProps) {
           ))}
         </div>
 
-        <div className="min-h-[200px] pt-4">
+        <div className="min-h-[200px] pt-4 pb-2">
           {/* Completed Panel */}
           <div
             role="tabpanel"

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Serif_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -18,6 +18,13 @@ export const metadata: Metadata = {
   description: "Scoreboard and match schedule for the Little Nest Parent's Padel Tournament",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -25,7 +32,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${dmSerif.variable} ${dmSans.variable}`}>
-      <body className="font-body min-h-screen">
+      <body className="font-body min-h-screen overflow-x-hidden">
         {children}
       </body>
     </html>

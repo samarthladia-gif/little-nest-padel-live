@@ -1,9 +1,71 @@
 import type { CompletedMatch } from "@/types";
 
+type CompletedMatchCardProps = {
+  match: CompletedMatch;
+};
+
 /** Show score as-is unless it looks like a date string from the sheet. */
 function formatScoreSummary(score: string): string {
   if (!score || /GMT|Standard Time/i.test(score)) return "—";
   return score;
+}
+
+function TeamBlock({
+  teamName,
+  playerNames,
+  isWinner,
+  align,
+}: {
+  teamName: string;
+  playerNames: string[];
+  isWinner: boolean;
+  align: "left" | "right";
+}) {
+  // Mobile: always left aligned (prevents weird empty space + detached winner badge)
+  // Desktop (sm+): keep left/right alignment
+  const wrapperAlignClass =
+    align === "left"
+      ? "items-start text-left"
+      : "items-start text-left sm:items-end sm:text-right";
+
+  const pillAlignClass = align === "right" ? "sm:self-end" : "";
+
+  return (
+    <div className={`flex min-w-0 flex-col ${wrapperAlignClass}`}>
+      {isWinner && (
+        <span
+          className="mb-2 text-lg font-bold leading-none text-card-winner"
+          aria-label="Winner"
+        >
+          W
+        </span>
+      )}
+
+      <div
+        className={`w-fit rounded-lg px-3 py-1.5 ${pillAlignClass} ${
+          isWinner
+            ? "border-2 border-card-winner bg-card-winner-muted/50"
+            : "border border-card-border bg-card-loser-muted/30"
+        }`}
+      >
+        <span
+          className={`break-words text-base font-semibold sm:text-lg ${
+            isWinner ? "text-card-winner" : "text-card-loser"
+          }`}
+        >
+          {teamName}
+        </span>
+      </div>
+
+      <div className="mt-2 flex flex-col text-sm text-gray-600">
+        {playerNames.map((name) => (
+          <span key={name} className="break-words">
+            {name}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default function CompletedMatchCard({ match }: CompletedMatchCardProps) {
@@ -15,15 +77,11 @@ export default function CompletedMatchCard({ match }: CompletedMatchCardProps) {
   const hasCategory = match.category != null && String(match.category).trim() !== "";
   const hasFixture = match.fixture != null && String(match.fixture).trim() !== "";
 
-  const teamALabel = match.team_a.name;
-  const teamBLabel = match.team_b.name;
-
   return (
     <article
-      className="overflow-hidden rounded-2xl border border-gray-300 bg-[#f8f2e7] shadow-card transition hover:shadow-card-hover"
+      className="min-w-0 overflow-hidden rounded-2xl border border-gray-300 bg-[#f8f2e7] shadow-card transition hover:shadow-card-hover"
       data-match-id={match.id}
     >
-      {/* Top: Category from sheet (e.g. Men's) */}
       {hasCategory && (
         <div className="border-b border-gray-200 bg-white/50 px-4 py-2.5 text-center">
           <span className="text-sm font-medium text-gray-700">
@@ -32,100 +90,42 @@ export default function CompletedMatchCard({ match }: CompletedMatchCardProps) {
         </div>
       )}
 
-      <div className="flex flex-col items-stretch gap-4 p-5 sm:flex-row sm:items-center sm:gap-6 sm:p-6">
-        <div className="flex flex-1 flex-col items-center">
-          {winnerA ? (
-            <>
-              <span
-                className="mb-1.5 text-lg font-bold leading-none text-card-winner"
-                aria-label="Winner"
-              >
-                W
-              </span>
-              <div className="rounded-lg border-2 border-card-winner bg-card-winner-muted/50 px-3 py-1.5">
-                <span className="text-lg font-semibold text-card-winner">
-                  {teamALabel}
-                </span>
-              </div>
-              <div className="mt-2 flex w-full flex-col text-left text-sm text-gray-600">
-                {namesA.map((name) => (
-                  <span key={name}>{name}</span>
-                ))}
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="rounded-lg border border-card-border bg-card-loser-muted/30 px-3 py-1.5">
-                <span className="text-lg font-semibold text-card-loser">
-                  {teamALabel}
-                </span>
-              </div>
-              <div className="mt-2 flex w-full flex-col text-left text-sm text-gray-600">
-                {namesA.map((name) => (
-                  <span key={name}>{name}</span>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-
-        <div className="flex shrink-0 flex-col items-center justify-center">
-          <div className="rounded-lg border border-card-border bg-card-score px-4 py-2">
-            <span className="text-xl font-bold tabular-nums text-gray-700">
-              {scoreDisplay}
-            </span>
+      {/* Mobile: stacked grid rows. Desktop (sm+): 3-column row */}
+      <div className="p-4 sm:p-5 md:p-6">
+        <div className="grid gap-4 sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-6">
+          <div className="min-w-0">
+            <TeamBlock
+              teamName={match.team_a.name}
+              playerNames={namesA}
+              isWinner={winnerA}
+              align="left"
+            />
           </div>
-        </div>
 
-        <div className="flex flex-1 flex-col items-center">
-          {winnerB ? (
-            <>
-              <span
-                className="mb-1.5 text-lg font-bold leading-none text-card-winner"
-                aria-label="Winner"
-              >
-                W
+          <div className="flex justify-center sm:justify-center">
+            <div className="rounded-lg border border-card-border bg-card-score px-4 py-2">
+              <span className="text-lg font-bold tabular-nums text-gray-700 sm:text-xl">
+                {scoreDisplay}
               </span>
-              <div className="rounded-lg border-2 border-card-winner bg-card-winner-muted/50 px-3 py-1.5">
-                <span className="text-lg font-semibold text-card-winner">
-                  {teamBLabel}
-                </span>
-              </div>
-              <div className="mt-2 flex w-full flex-col text-right text-sm text-gray-600">
-                {namesB.map((name) => (
-                  <span key={name}>{name}</span>
-                ))}
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="rounded-lg border border-card-border bg-card-loser-muted/30 px-3 py-1.5">
-                <span className="text-lg font-semibold text-card-loser">
-                  {teamBLabel}
-                </span>
-              </div>
-              <div className="mt-2 flex w-full flex-col text-right text-sm text-gray-600">
-                {namesB.map((name) => (
-                  <span key={name}>{name}</span>
-                ))}
-              </div>
-            </>
-          )}
+            </div>
+          </div>
+
+          <div className="min-w-0">
+            <TeamBlock
+              teamName={match.team_b.name}
+              playerNames={namesB}
+              isWinner={winnerB}
+              align="right"
+            />
+          </div>
         </div>
       </div>
 
-      {/* Bottom: Fixture from sheet (e.g. Group B), small text */}
       {hasFixture && (
         <div className="border-t border-gray-200 bg-white/50 px-4 py-2 text-center">
-          <span className="text-xs font-medium text-gray-600">
-            {match.fixture}
-          </span>
+          <span className="text-xs font-medium text-gray-600">{match.fixture}</span>
         </div>
       )}
     </article>
   );
 }
-
-type CompletedMatchCardProps = {
-  match: CompletedMatch;
-};
